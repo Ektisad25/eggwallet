@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Social Page</title>
+  <style>
+    body {
+      background: #1e1e2f;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .post-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 16px;
+    }
+
+    button {
+      background: #4CAF50;
+      border: none;
+      padding: 10px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .feed {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .post {
+      background: #2b2b3c;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .comment-box {
+      margin-top: 10px;
+      display: none;
+    }
+
+    .comment-box textarea {
+      width: 100%;
+      min-height: 60px;
+      font-size: 14px;
+    }
+
+    .comment-section {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .empty {
+      text-align: center;
+      color: gray;
+    }
+    .profile-pic {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.username {
+  font-weight: bold;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>eggs web3 wallet</h1>
+
+    <form id="postForm" class="post-form">
+      <textarea name="content" placeholder="What's on your mind?" required></textarea>
+      <button type="submit">Post</button>
+    </form>
+
+    <div class="feed" id="feed">
+      {% for post in posts %}
+  <div class="post" data-index="{{ loop.index0 }}">
+    <div class="post-header">
+      <img src="{{ url_for('static', filename='uploads/05.png' ~ post.image_filename) }}" class="profile-pic" alt="Profile">
+      <span class="username">{{ post.username }}</span>
+    </div>
+
+    <div class="content">{{ post.content }}</div>
+
+    <div class="comment-section">
+      {% for comment in post.comments %}
+  <div class="comment">
+    <img src="{{ url_for('static', filename='uploads/' ~ comment.image_filename) }}" class="profile-pic" alt="Profile">
+    <strong>{{ comment.username }}</strong>: {{ comment.text }}
+  </div>
+{% endfor %}
+
+    </div>
+
+    <div class="actions">
+      <span class="like-btn">❤️ <span class="like-count">{{ post.likes }}</span></span>
+      <span class="comment-toggle">💬 <span class="comment-count">{{ post.comments | length }}</span></span>
+    </div>
+
+    <div class="comment-box" style="display: none;">
+      <textarea placeholder="Write a comment..."></textarea>
+      <button class="submit-comment">Submit</button>
+    </div>
+  </div>
+{% endfor %}
+
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('postForm');
+    const feed = document.getElementById('feed');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const res = await fetch('/post', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        const postDiv = document.createElement('div');
+        postDiv.className = 'post';
+        postDiv.setAttribute('data-index', '0'); // Assuming 0 since it's new
+        postDiv.innerHTML = `
+        <div class="post-header">
+    <img src="/static/uploads/${data.post.image_filename}" class="profile-pic" alt="Profile">
+    <span class="username">${data.post.username}</span>
+  </div>
+          <div class="content">${data.post.content}</div>
+          <div class="comment-section"></div>
+          <div class="actions">
+            <span class="like-btn">❤️ <span class="like-count">0</span></span>
+            <span class="comment-toggle">💬 <span class="comment-count">0</span></span>
+          </div>
+          <div class="comment-box" style="display: none;">
+            <textarea placeholder="Write a comment..."></textarea>
+            <button class="submit-comment">Submit</button>
+          </div>
+        `;
+        feed.prepend(postDiv);
+        attachCommentHandlers(postDiv, 0);
+        form.reset();
+      }
+    });
+
+    function attachCommentHandlers(postElement, postIndex) {
+      const toggleBtn = postElement.querySelector('.comment-toggle');
+      const box = postElement.querySelector('.comment-box');
+      const submitBtn = postElement.querySelector('.submit-comment');
+      const textarea = postElement.querySelector('textarea');
+      const section = postElement.querySelector('.comment-section');
+      const likeBtn = postElement.querySelector('.like-btn');
+      const likeCount = postElement.querySelector('.like-count');
+      const commentCount = postElement.querySelector('.comment-count');
+
+      toggleBtn.addEventListener('click', () => {
+        box.style.display = box.style.display === 'none' ? 'block' : 'none';
+      });
+
+      submitBtn.addEventListener('click', () => {
+        const text = textarea.value.trim();
+        if (text) {
+          fetch('/comment', {
+  method: 'POST',
+  body: new URLSearchParams({
+    index: postIndex,
+    comment: text
+  })
+})
+.then(res => res.json())
+.then(data => {
+  if (data.success) {
+    const c = data.comment;
+    const comment = document.createElement('div');
+    comment.className = 'comment';
+    comment.innerHTML = `
+      <img src="/static/uploads/${c.image_filename}" class="profile-pic" alt="Profile">
+      <strong>${c.username}</strong>: ${c.text}
+    `;
+    section.appendChild(comment);
+    textarea.value = '';
+    commentCount.textContent = parseInt(commentCount.textContent) + 1;
+  }
+});
+
+          textarea.value = '';
+          commentCount.textContent = parseInt(commentCount.textContent) + 1;
+        }
+      });
+
+      likeBtn.addEventListener('click', async () => {
+        const res = await fetch('/like', {
+          method: 'POST',
+          body: new URLSearchParams({ index: postIndex })
+        });
+        const data = await res.json();
+        if (data.success) {
+          likeCount.textContent = data.likes;
+        }
+      });
+    }
+
+    // Attach to all existing posts
+    document.querySelectorAll('.post').forEach((el, i) => {
+      attachCommentHandlers(el, i);
+    });
+  </script>
+</body>
+
+</html>

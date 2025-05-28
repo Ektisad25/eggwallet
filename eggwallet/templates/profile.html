@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+   
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+  
+    <!-- Favicons -->
+    <link href="static/assets/img/fav.jpg" rel="icon">
+    <link href="static/assets/img/fav.jpg" rel="apple-touch-icon">
+  
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  
+    <!-- Vendor CSS Files -->
+    <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <!-- In <head> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://kit.fontawesome.com/090ca49637.js" crossorigin="anonymous"></script>
+
+<!-- Before </body> -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Main CSS File -->
+    <link href="static/assets/css/main.css" rel="stylesheet">
+    <title>User Profile</title>
+
+    <!-- Bootstrap & FontAwesome CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0 }
+        body {
+            background-image: url('static/assets/img/09.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 100%;
+            width: 100%;
+          }
+                  .card {
+            width: 350px;
+            background-color: #efefef;
+            border: none;
+            cursor: pointer;
+            transition: all 0.5s;
+        }
+        .image img { transition: all 0.5s }
+        .card:hover .image img { transform: scale(1.5) }
+        .btn {
+            height: 140px;
+            width: 140px;
+            border-radius: 50%;
+        }
+        .name {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .idd {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .idd1 {
+            font-size: 12px;
+        }
+        .number {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .follow {
+            font-size: 12px;
+            font-weight: 500;
+            color: #444444;
+        }
+        .btn1 {
+            height: 40px;
+            width: 150px;
+            border: none;
+            background-color: #000;
+            color: #aeaeae;
+            font-size: 15px;
+        }
+        .text span {
+            font-size: 13px;
+            color: #545454;
+            font-weight: 500;
+        }
+        .icons i {
+            font-size: 19px;
+        }
+        .join {
+            font-size: 14px;
+            color: #a0a0a0;
+            font-weight: bold;
+        }
+        .date {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <header id="header" class="header d-flex flex-column justify-content-center">
+      
+        <i class="header-toggle d-xl-none bi bi-list"></i>
+    
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="index"><i class="bi bi-house navicon"></i><span>Home</span></a></li>
+            <li><a href="profile" class="active"><i class="bi bi-person navicon"></i><span>Profile</span></a></li>
+            <li><a href="wallet"><i class="bi bi-file-earmark-text navicon"></i><span>Wallet</span></a></li>
+            <li><a href="market"><i class="bi bi-images navicon"></i><span>Market</span></a></li>
+            <li><a href="products"><i class="bi bi-hdd-stack navicon"></i><span>Products</span></a></li>
+            <li><a href="documentation"><i class="bi bi-envelope navicon"></i><span>documentation</span></a></li>
+          </ul>
+        </nav>
+    
+      </header>
+    <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+        <div class="card p-4">
+            <div class="image d-flex flex-column justify-content-center align-items-center">
+                <button class="btn btn-secondary">
+                    <img src="{{ url_for('static', filename='uploads/' + image_filename) }}" height="100" width="100" />
+
+
+                </button>
+                <span class="name mt-3">{{ name }}</span>
+                <span class="idd">@{{ username }}</span>
+                <div class="d-flex flex-row justify-content-center align-items-center gap-2">
+                    <span class="idd1">{{ address }}</span>
+                    <span><i class="fa fa-copy"></i></span>
+                </div>
+                <div class="d-flex flex-row justify-content-center align-items-center mt-3">
+    <span id="balanceDisplay" class="number">
+  {{ balance }} <i class="fak fa-satoshisymbol-solidtilt"></i>
+</span>
+
+</div>
+
+                <!-- Send Button -->
+<div class="d-flex mt-2 ms-2">
+    <button type="button" class="btn1 btn-dark" data-bs-toggle="modal" data-bs-target="#sendModal">
+        SEND
+    </button>
+</div>
+<!-- Send Modal -->
+<div class="modal fade" id="sendModal" tabindex="-1" aria-labelledby="sendModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="sendForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="sendModalLabel">Send BSV</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="sendType" class="form-label">Send to:</label>
+            <select id="sendType" class="form-select" required>
+              <option value="single" selected>Single Address</option>
+              <option value="multiple">Multiple Addresses</option>
+            </select>
+          </div>
+
+          <div id="singleSendFields">
+            <label for="singleAddress" class="form-label">Recipient Address</label>
+            <input type="text" class="form-control" id="singleAddress" placeholder="Enter BSV address or username" required>
+            <label for="singleAmount" class="form-label mt-2">Amount (in satoshis)</label>
+            <input type="number" class="form-control" id="singleAmount" placeholder="e.g. 1000" required>
+          </div>
+
+          <div id="multipleSendFields" style="display:none;">
+  <label for="multipleOutputs" class="form-label">Multiple Outputs (comma-separated usernames)</label>
+  <input type="text" class="form-control" id="multipleOutputs" placeholder="alice, bob" />
+
+  <label for="multipleAmount" class="form-label mt-2">Amount (in satoshis)</label>
+  <input type="number" class="form-control" id="multipleAmount" placeholder="e.g. 1000" />
+  
+  <small class="form-text text-muted">Usernames only. Equal amount will be sent to each.</small>
+</div>
+
+          <div id="sendError" class="text-danger mt-2" style="display:none;"></div>
+          <div id="sendSuccess" class="text-success mt-2" style="display:none;"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn1 btn-dark">Send</button>
+          <button type="button" class="btn1 btn-dark" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+                <!-- Button trigger modal -->
+<div class="d-flex mt-2">
+    <button type="button" class="btn1 btn-dark" data-bs-toggle="modal" data-bs-target="#completeProfileModal">
+        Complete Profile
+    </button>
+</div>
+
+               <!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="completeProfileModal" tabindex="-1" aria-labelledby="completeProfileLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="/complete_profile" method="post" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h5 class="modal-title" id="completeProfileLabel">Complete Your Profile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="form-group">
+              <input type="text" name="name" class="form-control" placeholder="Enter your name" value="{{ name }}" >
+          </div>
+          <div class="form-group mt-2">
+              <textarea name="description" class="form-control" placeholder="Enter profile description">{{ description }}</textarea>
+          </div>
+          <div class="form-group mt-2">
+              <label>Upload Profile Picture</label>
+              <input type="file" name="image" accept=".jpg,.jpeg,.png" class="form-control">
+          </div>
+          <div class="form-group mt-2">
+              <input type="text" name="twitter" class="form-control" placeholder="Twitter Profile URL (optional)" value="{{ twitter }}">
+          </div>
+          <div class="form-group mt-2">
+              <input type="text" name="instagram" class="form-control" placeholder="Instagram Profile URL (optional)" value="{{ instagram }}">
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="submit" class="btn1 btn-dark">Update Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+                <div class="text mt-3">
+                    <span>{{ description }} </span>
+                </div>
+                <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center">
+    {% if twitter %}
+        <a href="{{ twitter }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-twitter"></i></a>
+    {% endif %}
+    {% if instagram %}
+        <a href="{{ instagram }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-instagram"></i></a>
+    {% endif %}
+</div>
+
+                <div class="px-2 rounded mt-4 date">
+                    <span class="join">{{ joined }}</span>
+                </div>
+                <div class="d-flex mt-2">
+                    <button onclick="disconnect()" class="btn1 btn-dark">Disconnect</button>
+
+                  </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+  <script>
+  function disconnect() {
+    // Clear sessionStorage/localStorage if applicable
+    sessionStorage.clear();
+    localStorage.clear();
+    // Redirect to home/login
+    window.location.href = "/logout";
+  }
+  </script>
+ <script>
+  async function refreshBalance() {
+    try {
+      const response = await fetch('/api/get_balance');
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      if (data.success) {
+        document.getElementById('balanceDisplay').innerHTML = `${data.balance} <i class="fak fa-satoshisymbol-solidtilt"></i>`;
+      } else {
+        console.error('Failed to get balance');
+      }
+    } catch (error) {
+      console.error('Error fetching balance:', error);
+    }
+  }
+
+  // Refresh balance every 30 seconds
+  setInterval(refreshBalance, 30000);
+
+  // Optionally, refresh immediately on page load
+  window.onload = refreshBalance;
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const sendTypeSelect = document.getElementById('sendType');
+      const singleFields = document.getElementById('singleSendFields');
+      const multipleFields = document.getElementById('multipleSendFields');
+      const sendForm = document.getElementById('sendForm');
+      const sendError = document.getElementById('sendError');
+      const sendSuccess = document.getElementById('sendSuccess');
+
+      function showError(message) {
+        sendError.textContent = message;
+        sendError.style.display = 'block';
+        sendSuccess.style.display = 'none';
+      }
+
+      function showSuccess(message) {
+        sendSuccess.textContent = message;
+        sendSuccess.style.display = 'block';
+        sendError.style.display = 'none';
+      }
+
+      async function resolveUsernames(usernames) {
+        const response = await fetch('/resolve_usernames', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ users: usernames })
+        });
+        return await response.json();
+      }
+
+      // Toggle form fields based on send type
+      function updateSendType() {
+        if (sendTypeSelect.value === 'single') {
+          singleFields.style.display = 'block';
+          multipleFields.style.display = 'none';
+        } else {
+          singleFields.style.display = 'none';
+          multipleFields.style.display = 'block';
+        }
+        sendError.style.display = 'none';
+        sendSuccess.style.display = 'none';
+      }
+
+      sendTypeSelect.addEventListener('change', updateSendType);
+      updateSendType(); // initialize on page load
+
+      // Handle form submission
+      sendForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        sendError.style.display = 'none';
+        sendSuccess.style.display = 'none';
+
+        let data = {};
+
+        if (sendTypeSelect.value === 'single') {
+          let recipient = document.getElementById('singleAddress').value.trim();
+          const amount = parseInt(document.getElementById('singleAmount').value.trim(), 10);
+
+          if (!recipient || isNaN(amount) || amount <= 0) {
+            showError("Please enter valid username/address and amount.");
+            return;
+          }
+
+          if (!recipient.startsWith('1') && !recipient.startsWith('q')) {
+            try {
+              const res = await resolveUsernames([recipient]);
+              if (!res.success || !res.addresses[recipient]) {
+                showError("Username not found.");
+                return;
+              }
+              recipient = res.addresses[recipient];
+            } catch {
+              showError("Error resolving username.");
+              return;
+            }
+          }
+
+          data = { sendType: 'single', outputs: [[recipient, amount]] };
+
+        } else if (sendTypeSelect.value === 'multiple') {
+          const usernamesRaw = document.getElementById('multipleOutputs').value.trim();
+          const satoshis = parseInt(document.getElementById('multipleAmount').value.trim(), 10);
+
+          if (!usernamesRaw) {
+            showError("Please enter usernames.");
+            return;
+          }
+
+          if (isNaN(satoshis) || satoshis <= 0) {
+            showError("Invalid amount.");
+            return;
+          }
+
+          const usernames = usernamesRaw.split(',').map(u => u.trim()).filter(u => u.length > 0);
+          if (!usernames.length) {
+            showError("No valid usernames provided.");
+            return;
+          }
+
+          try {
+            const res = await resolveUsernames(usernames);
+
+            if (!res.success) {
+              showError("Failed to resolve some usernames.");
+              return;
+            }
+
+const outputs = usernames
+  .filter(u => res.addresses[u])
+  .map(u => [res.addresses[u], satoshis]);
+try {
+  const res = await resolveUsernames(usernames);
+  console.log("Resolved usernames:", res);
+
+  if (!res.success) {
+    showError("Failed to resolve some usernames.");
+    return;
+  }
+
+  const usernames = usernamesRaw
+  .split(',')
+  .map(u => u.trim().toLowerCase()) // ensure consistent format
+  .filter(u => u.length > 0);
+
+
+  console.log("Filtered outputs:", outputs);
+
+  if (outputs.length !== usernames.length) {
+    showError("Some usernames could not be resolved.");
+    return;
+  }
+
+  data = { sendType: 'multiple', outputs };
+
+} catch (err) {
+  console.error(err);
+  showError("Error resolving usernames.");
+  return;
+}
+
+if (outputs.length !== usernames.length) {
+  showError("Some usernames could not be resolved.");
+  return;
+}
+
+
+if (outputs.length !== usernames.length) {
+  showError("Some usernames could not be resolved.");
+  return;
+}
+            data = { sendType: 'multiple', outputs };
+            
+
+          } catch (err) {
+            showError("Error resolving usernames.");
+            return;
+          }
+        }
+
+        try {
+          const response = await fetch('/send_bsv', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+          const result = await response.json();
+
+          if (result.success) {
+            showSuccess("Transaction sent successfully! TXID: " + result.txid);
+            sendForm.reset();
+            updateSendType(); // reset visible fields
+          } else {
+            showError(result.error || "Transaction failed.");
+          }
+
+        } catch (err) {
+          showError("Error sending transaction.");
+        }
+      });
+    });
+  </script>
+
+
+
+  <!-- Vendor JS Files -->
+  <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="static/assets/vendor/php-email-form/validate.js"></script>
+  <script src="static/assets/vendor/aos/aos.js"></script>
+  <script src="static/assets/vendor/typed.js/typed.umd.js"></script>
+  <script src="static/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="static/assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="static/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="static/assets/js/main.js"></script>
+</body>
+</html>
